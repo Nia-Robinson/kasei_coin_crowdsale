@@ -42,24 +42,24 @@ contract KaseiCoinCrowdsaleDeployer {
         string memory name,
         string memory symbol,
         address payable wallet, // this address will receive all Ether raised by the crowdsale
-        uint goal
+        uint goal // the amount of ether to raise during crowdsale
     ) public {
         // Create a new instance of the KaseiCoin contract.
-        // YOUR CODE HERE!
+        KaseiCoin token = new KaseiCoin(name, symbol, 0);
         
         // Assign the token contract’s address to the `kasei_token_address` variable.
-        // YOUR CODE HERE!
+        kasei_token_address = address(token);
 
         // Create a new instance of the `KaseiCoinCrowdsale` contract
-        // YOUR CODE HERE!
+        KaseiCoinCrowdsale kasei_crowdsale = new KaseiCoinCrowdsale (1, wallet, token, goal, now, now + 24 weeks);
             
-        // Aassign the `KaseiCoinCrowdsale` contract’s address to the `kasei_crowdsale_address` variable.
-        // YOUR CODE HERE!
+        // Assign the `KaseiCoinCrowdsale` contract’s address to the `kasei_crowdsale_address` variable.
+        kasei_crowdsale_address = address(kasei_crowdsale);
 
         // Set the `KaseiCoinCrowdsale` contract as a minter
-        // YOUR CODE HERE!
+        token.addMinter(kasei_crowdsale_address);
         
         // Have the `KaseiCoinCrowdsaleDeployer` renounce its minter role.
-        // YOUR CODE HERE!
+        token.renounceMinter();
     }
 }
